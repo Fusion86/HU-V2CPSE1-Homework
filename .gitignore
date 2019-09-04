@@ -1,0 +1,10 @@
+.vscode/
+build/
+*.o
+*.bin
+*.elf
+*.exe
+*.ld
+*.map
+*.project
+bmptk_fixed_size_stack.c

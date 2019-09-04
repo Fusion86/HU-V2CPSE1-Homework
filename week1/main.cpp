@@ -7,6 +7,14 @@ void print_asciz(const char *s);
 void uart_put_char(char c) {
     hwlib::cout << c;
 }
+
+char invert_char(char c) {
+    if (c > 64 && c < 91)
+        return c + 32;
+    if (c > 96 && c < 123)
+        return c - 32;
+    return c;
+}
 }
 
 // void print_asciz(const char *s) {

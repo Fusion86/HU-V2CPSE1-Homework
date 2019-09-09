@@ -1,6 +1,6 @@
 #############################################################################
 #
-# makefile.due common settings for Arduino Due projects
+# Makefile.due common settings for Arduino Due projects
 #
 # (c) Wouter van Ooijen (www.voti.nl) 2017
 #
@@ -8,16 +8,25 @@
 #
 #############################################################################
 
-# settings for Arduino Due projects
+UNAME_S := $(shell uname -s)
+
+# Settings for Arduino Due projects
 TARGET            ?= arduino_due
-SERIAL_PORT       ?= $(shell ls /dev/cu.usbmodem*)
 CONSOLE_BAUDRATE  ?= 2400
 STACK_SIZE        ?= 81920
 HEAP              ?= BMPTK
 
-# add the rtos
-RTOS              ?= $(RELATIVE)/../rtos
+ifeq ($(UNAME_S),Linux)
+    SERIAL_PORT       ?= $(shell ls /dev/ttyACM*)
+endif
+
+ifeq ($(UNAME_S),Darwin)
+    SERIAL_PORT       ?= $(shell ls /dev/cu.usbmodem*)
+endif
+
+# Add the rtos
+RTOS              ?= $(HOME)/Sources/rtos
 include           $(RTOS)/makefile.inc
 
-# defer to the Makefile.link
+# Defer to the Makefile.link
 include           $(RELATIVE)/Makefile.link

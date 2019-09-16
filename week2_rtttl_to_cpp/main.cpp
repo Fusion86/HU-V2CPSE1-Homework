@@ -1,6 +1,7 @@
 #include <fstream>
 
 #include "rtttl_player.hpp"
+#include "notes_to_cpp.hpp"
 
 const char sos[] = "SOS:d=4,o=5,b=60:a,p,a,p,a,p,2a.,p,2a.,p,2a.,p,a,p,a,p,a";
 const char let_it_be[] = "Beatles Let It Be:d=4,o=5,b=100:16e6,8d6,c6,16e6,8g6,8a6,8g.6,16g6,8g6,8e6,16d6,8c6,16a,8g,e.6,p,8e6,16e6,8f.6,8e6,8e6,8d6,16p,16e6,16d6,8d6,2c.6";
@@ -10,10 +11,10 @@ const char one[] = "NumberOne:d=16,o=5,b=168:4f.,8c6,16b5,16c6,16b5,16c6,8b5,8c6
 
 int main(void) {
     std::ofstream f;
-    f.open("yoink.cpp");
+    f.open("meldody.cpp"); // Not a type, this is how the assignment wants it to be named
 
-    auto player = notes_to_cpp();
-    player.start(f);
+    auto player = notes_to_cpp(f);
+    player.start();
     rtttl_play(player, sos);
     player.end();
 

@@ -11,7 +11,7 @@ const char one[] = "NumberOne:d=16,o=5,b=168:4f.,8c6,16b5,16c6,16b5,16c6,8b5,8c6
 
 int main(void) {
     std::ofstream f;
-    f.open("meldody.cpp"); // Not a type, this is how the assignment wants it to be named
+    f.open("meldody.cpp"); // Not a typo, this is how the assignment wants it to be named
 
     auto player = notes_to_cpp(f);
     player.start();

@@ -40,27 +40,21 @@ application:
 
 
 @ char invert_char(char)
-@ NOTE: Apparently xor r0, #32 also works instead of add/sub.
-@ But I haven't tested this.
 invert_char:
-    cmp r0, #64
-    ble invert_char_other       @ if not r0 > 64 goto invert_char_other
-    cmp r0, #91
-    bge invert_char_other       @ if not r0 < 91 goto invert_char_other
-
-    @ If we got this far it means that (r0 > 64 && r0 < 91)
-    add r0, r0, #32             @ Make character lowercase
+    cmp r0, #'z'            @ If r0 > 'z'
+    bgt invert_char_end		@ Goto end
+    cmp r0, #'a' 	        @ If r0 >= 'a'
+    bge subtract 	        @ Goto subtract
+    cmp r0, #'Z' 	        @ If r0 > 'Z'
+    bge invert_char_end     @ Goto end
+    cmp r0, #'A'	        @ If r0 >= 'A'
+    bge add 		        @ Goto add
     b invert_char_end
-
-invert_char_other:
-    @ if (r0 > 96 && r0 < 123) { r0 - 32; }
-    cmp r0, #96
-    ble invert_char_end     @ if not r0 > 96 goto end
-    cmp r0, #123
-    bge invert_char_end     @ if not r0 < 123 goto end
-
-    @ If we got this far it means that (r0 > 96 && r0 < 123)
-    sub r0, r0, #32         @ Make character uppercase
+subtract:
+    sub r0, #32 	        @ Make lowercase
+    b invert_char_end
+add:
+    add r0, #32 	        @ Make uppercase
 
 invert_char_end:
     mov pc, lr

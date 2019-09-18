@@ -1,3 +1,6 @@
+@ Gemaakt door Wouter Visser
+@ Aangemaakt op 17-09-2019
+
 .cpu cortex-m0
 .align 2
 
@@ -51,10 +54,11 @@ invert_char:
     bge add 		        @ Goto add
     b invert_char_end
 subtract:
+    @ Decrementing an ASCII character with 32 makes it uppercase
     sub r0, #32 	        @ Make lowercase
     b invert_char_end
 add:
+    @ Incrementing an ASCII character with 32 makes it lowercase
     add r0, #32 	        @ Make uppercase
-
 invert_char_end:
     mov pc, lr

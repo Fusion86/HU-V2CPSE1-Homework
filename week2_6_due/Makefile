@@ -26,3 +26,15 @@ SEARCH  :=
 # and defer to the Makefile.due there
 RELATIVE := $(RELATIVE)../
 include $(RELATIVE)Makefile.due
+
+all: my_melody.cpp main.cpp
+	make # Uses Makefile
+
+clean:
+	rm -f *.o *.elf *.map *.ld *.bin bmptk_fixed_size_stack.c generator my_melody.cpp
+
+my_melody.cpp: generator
+	./generator my_melody.cpp
+
+generator: generator.cpp rtttl_player.cpp notes_to_cpp.cpp
+	g++ -std=c++17 generator.cpp rtttl_player.cpp notes_to_cpp.cpp -o generator

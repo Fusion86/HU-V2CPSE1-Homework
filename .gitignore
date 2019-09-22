@@ -1,3 +1,4 @@
+# General
 .vscode/
 build/
 *.o
@@ -8,3 +9,7 @@ build/
 *.map
 *.project
 bmptk_fixed_size_stack.c
+
+# Week 2
+generator
+week2_*/my_melody.cpp

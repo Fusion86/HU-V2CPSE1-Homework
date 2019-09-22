@@ -27,9 +27,6 @@ SEARCH  :=
 RELATIVE := $(RELATIVE)../
 include $(RELATIVE)Makefile.due
 
-all: my_melody.cpp main.cpp
-	make # Uses Makefile
-
 clean:
 	rm -f *.o *.elf *.map *.ld *.bin bmptk_fixed_size_stack.c generator my_melody.cpp
 

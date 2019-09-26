@@ -37,36 +37,6 @@ class note {
     const int duration;
 
     friend hwlib::ostream& operator<<(hwlib::ostream& os, const note& note);
-
-    static const char* frequency_to_string(const int frequency) {
-        switch (frequency) {
-            case note::A4: return "A4";
-            case note::A4s: return "A4s";
-            case note::B4: return "B4";
-            case note::C5: return "C5";
-            case note::C5s: return "C5";
-            case note::D5: return "D5";
-            case note::D5s: return "D5s";
-            case note::E5: return "E5";
-            case note::F5: return "F5";
-            case note::F5s: return "F5s";
-            case note::G5: return "G5";
-            case note::G5s: return "G5s";
-            case note::A5: return "A5";
-            case note::A5s: return "A5s";
-            case note::B5: return "B5";
-            default: return "unknown";
-        }
-    }
-
-    static const char* duration_to_string(const int duration) {
-        switch (duration) {
-            case note::dF: return "1/1";
-            case note::dH: return "1/2";
-            case note::dQ: return "1/4";
-            default: return "unknown";
-        }
-    }
 };
 
 #endif

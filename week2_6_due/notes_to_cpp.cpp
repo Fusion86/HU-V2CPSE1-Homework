@@ -1,3 +1,6 @@
+// Created by Wouter "Fusion86" Visser
+// Licensed under the Specerijen met Eigen Risico Public License
+
 #include "notes_to_cpp.hpp"
 
 void notes_to_cpp::start() {

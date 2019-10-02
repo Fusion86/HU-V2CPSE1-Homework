@@ -1,3 +1,6 @@
+// Created by Wouter "Fusion86" Visser
+// Licensed under the Specerijen met Eigen Risico Public License
+
 #pragma once
 
 #include <hwlib.hpp>
@@ -76,7 +79,7 @@ namespace Fusion {
     }
 
     template <typename T, std::size_t S>
-    constexpr const std::array<T, S> generateLookupTable(int length) {
+    constexpr const std::array<T, S> buildLookupTable(int length) {
         std::array<T, S> arr;
         int stepSize = 360 / S;
         for (size_t i = 0; i < S; i++) {
@@ -85,5 +88,9 @@ namespace Fusion {
         return arr;
     }
 
-    constexpr std::array<hwlib::xy, 12> hourLineEnds = generateLookupTable<hwlib::xy, 12>(20);
+    // Build table for 12 hours
+    static constexpr std::array<hwlib::xy, 12> hourLineEnds = buildLookupTable<hwlib::xy, 12>(20);
+
+    // Build table for 60 minutes
+    static constexpr std::array<hwlib::xy, 60> minuteLineEnds = buildLookupTable<hwlib::xy, 60>(30);
 } // namespace Fusion

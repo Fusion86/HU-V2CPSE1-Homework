@@ -17,4 +17,4 @@ SEARCH            += $(TI-SOFTWARE)/Catch/include
 
 # add hwlib
 HWLIB             ?= $(TI-SOFTWARE)/hwlib
-include           $(HWLIB)/makefile.inc
+include           $(HWLIB)/Makefile.inc

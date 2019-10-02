@@ -21,7 +21,7 @@ ifeq ($(UNAME_S),Linux)
 endif
 
 ifeq ($(UNAME_S),Darwin)
-    SERIAL_PORT       ?= $(shell ls /dev/cu.usbmodem*)
+    SERIAL_PORT       ?= $(shell ls /dev/cu.usb*)
 endif
 
 # Add the rtos

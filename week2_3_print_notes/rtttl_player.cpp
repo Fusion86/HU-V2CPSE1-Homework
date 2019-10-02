@@ -22,43 +22,43 @@ void rtttl_play( note_player & lsp, const char *s ){
       const char c = *p;
 
       switch(state ){
-             
-         // title 
+
+         // title
          case 0:
             // ignore title (chars up until the first ':')
             if( c == ':' ){
                state = 1;
-            } 
+            }
             break;
-               
-          // defaults  
+
+          // defaults
           case 1:
-               // end of the defaults, start of the melody                
-            if( c == ':' ){                
+               // end of the defaults, start of the melody
+            if( c == ':' ){
                state = 3;
-               
-            // start of a default (d,o,b)               
+
+            // start of a default (d,o,b)
             } if( is_lowercase( c )){
                def = c;
                state = 2;
-               
-            // unrecognised default letter             
+
+            // unrecognised default letter
             } else {
                HWLIB_TRACE << "c=[" << c << "]";
-            } 
-            break;   
+            }
+            break;
 
          // defaults, letter has been stored in def
          case 2:
             // start the value
             if( c == '=' ){
                value = 0;
-               
+
             // digit: update the value
             } else if( is_digit( c )){
                value = ( 10 * value ) + ( c - '0' );
-               
-            // end of the value: update the default   
+
+            // end of the value: update the default
             } else if(( c == ':' ) || ( c == ',' )) {
                if( def == 'o'){
                   def_octave = value;
@@ -68,66 +68,66 @@ void rtttl_play( note_player & lsp, const char *s ){
                   beat = value;
                } else {
                   HWLIB_TRACE << "def=[" << def << "]";
-               }   
+               }
                state = ( c == ':' ) ? 3 : 1;
-               
+
             // unrecognised letter in the value of a default
             } else {
                HWLIB_TRACE << "c=[" << c << "]";
             }
             break;
-            
+
          // note start, set defaults
-         case 3:  
+         case 3:
             duration = def_duration;
             octave = def_octave;
             state = 4;
             dot = 0;
-            
+
             // ignore a space before a note
             if( c == ' ' ){
                 break;
             }
-            
+
             // deliberate fallthrough!!
-               
-         // duration 1  
-         case 4:   
+
+         // duration 1
+         case 4:
             if( is_digit( c )){
                duration = c -'0';
                state = 5;
                break;
-            }            
+            }
             // deliberate fallthrough!!
-            
-         // duration 2 
-         case 5:   
+
+         // duration 2
+         case 5:
             if( is_digit( c )){
                duration = ( duration * 10 ) + ( c -'0' );
                state = 6;
                break;
-            }            
+            }
             // deliberate fallthrough!!
-               
-         // note letter   
-         case 6:   
+
+         // note letter
+         case 6:
             // select the note, or a pause
             if( is_lowercase( c )){
                if( c == 'p' ){
                    frequency = 0;
                } else {
-                  frequency = frequencies[ c - 'a' ]; 
-               }   
-               
-            // unrecognised letter in note specification               
+                  frequency = frequencies[ c - 'a' ];
+               }
+
+            // unrecognised letter in note specification
             } else {
                HWLIB_TRACE << "c=[" << c << "]";
-            }   
+            }
             state = 7;
             break;
-               
-         // optional #   
-         case 7:   
+
+         // optional #
+         case 7:
             if( c == '#' ){
                frequency = 10595LL * frequency / 10000;
                state = 8;
@@ -141,7 +141,7 @@ void rtttl_play( note_player & lsp, const char *s ){
                dot = 1;
                state = 9;
                break;
-            }            
+            }
             // deliberate fallthrough!!
 
          case 9:
@@ -149,10 +149,10 @@ void rtttl_play( note_player & lsp, const char *s ){
                octave = c - '0';
                state = 10;
                break;
-            }        
+            }
             // deliberate fallthrough!!
-               
-         case 10:   
+
+         case 10:
             if( ( c == ',' ) || ( c == '\0') ){
                while( octave > 4 ){ --octave; frequency *= 2; }
                int note_duration = ( 4 * 60'000'000 ) / ( duration * beat );
@@ -160,18 +160,18 @@ void rtttl_play( note_player & lsp, const char *s ){
                   duration += duration / 2;
                }
 
-               lsp.play( note{ frequency / 1000, note_duration } ); 
-			   
+               lsp.play( note{ frequency / 1000, note_duration } );
+
                state = 3;
 
-            // unrecognised character in or after note 
+            // unrecognised character in or after note
             } else {
                HWLIB_TRACE << "c=[" << c << "]";
             }
             if( c == '\0' ){
                state = -1;
             }
-            break;            
-      }         
+            break;
+      }
    }
-}   
+}

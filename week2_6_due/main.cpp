@@ -12,6 +12,10 @@ int main(void) {
     auto p = note_player_gpio(lsp);
     hwlib::wait_ms(10);
 
-    auto fe = my_melody();
-    fe.play(p);
+    auto melody = my_melody();
+
+    for (;;) {
+        melody.play(p);
+        hwlib::wait_ms(2000);
+    }
 }

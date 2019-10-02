@@ -22,7 +22,7 @@ int main(int argc, char **argv) {
 
     auto player = notes_to_cpp(f);
     player.start();
-    rtttl_play(player, tetris);
+    rtttl_play(player, pirates);
     player.end();
 
     f.close();

@@ -17,6 +17,9 @@ HEADERS := clock.hpp
 # other places to look for files for this project
 SEARCH  :=
 
+# we can use this file to verify that our constexpr are indeed compile time
+RESULTS := clock.lst
+
 # set RELATIVE to the next higher directory
 # and defer to the appropriate Makefile.* there
 RELATIVE := ..

@@ -15,6 +15,15 @@ namespace Fusion {
     struct clock_time {
         int hours;
         int minutes;
+        int seconds;
+
+        void addSeconds(int s) {
+            seconds += s;
+            if (seconds > 59) {
+                addMinutes(seconds / 60);
+                seconds = seconds % 60;
+            }
+        }
 
         void addMinutes(int m) {
             minutes += m;
@@ -29,7 +38,7 @@ namespace Fusion {
         }
 
         bool operator==(const clock_time& rhs) {
-            return hours == rhs.hours && minutes == rhs.minutes;
+            return hours == rhs.hours && minutes == rhs.minutes && seconds == rhs.seconds;
         }
 
         bool operator!=(const clock_time& rhs) {
@@ -43,7 +52,11 @@ namespace Fusion {
                       << ":"
                       << hwlib::setfill('0')
                       << hwlib::setw(2)
-                      << time.minutes;
+                      << time.minutes
+                      << ":"
+                      << hwlib::setfill('0')
+                      << hwlib::setw(2)
+                      << time.seconds;
         }
     };
 
@@ -54,12 +67,18 @@ namespace Fusion {
         hwlib::window& window;
         hwlib::target::pin_in btnAddMinute;
         hwlib::target::pin_in btnAddHour;
-        bool drawFlag = false;
 
         hwlib::xy windowCenter;
         hwlib::circle clockFrame;
-        hwlib::line minuteHand;
         hwlib::line hourHand;
+        hwlib::line minuteHand;
+        hwlib::line secondHand;
+
+        // When set to true the next .draw() call will redraw the screen
+        bool drawFlag = false;
+
+        // Last time (in us since startup) when time was updated
+        uint_fast64_t prev_time_update = 0;
 
       public:
         clock(hwlib::window& window, hwlib::target::pin_in& btnAddMinute, hwlib::target::pin_in& btnAddHour);
@@ -72,7 +91,7 @@ namespace Fusion {
 
     // Calculate rotation endpoint xy where origin = 0,0
     constexpr hwlib::xy calcRotationEnd(int rotationDegrees, int radius) {
-        float radians = rotationDegrees * (PI / 180);
+        float radians = (rotationDegrees - 90) * (PI / 180); // -90 because we want the clock to start at 0 and not 3 o'clock
         return hwlib::xy(
             cos(radians) * radius,
             sin(radians) * radius);
@@ -89,8 +108,12 @@ namespace Fusion {
     }
 
     // Build table for 12 hours
-    static constexpr std::array<hwlib::xy, 12> hourLineEnds = buildLookupTable<hwlib::xy, 12>(20);
+    static constexpr std::array<hwlib::xy, 12> hourLineEnd = buildLookupTable<hwlib::xy, 12>(15);
 
     // Build table for 60 minutes
-    static constexpr std::array<hwlib::xy, 60> minuteLineEnds = buildLookupTable<hwlib::xy, 60>(30);
+    static constexpr std::array<hwlib::xy, 60> minuteLineEnd = buildLookupTable<hwlib::xy, 60>(30);
+
+    // Build table for 60 seconds
+    static constexpr std::array<hwlib::xy, 60> secondLineStart = buildLookupTable<hwlib::xy, 60>(24);
+    static constexpr std::array<hwlib::xy, 60> secondLineEnd = buildLookupTable<hwlib::xy, 60>(32);
 } // namespace Fusion

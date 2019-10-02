@@ -8,6 +8,7 @@ build/
 *.ld
 *.map
 *.project
+*.lst
 bmptk_fixed_size_stack.c
 
 # Week 2

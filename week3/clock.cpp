@@ -10,12 +10,21 @@ namespace Fusion {
           btnAddHour(btnAddHour),
           windowCenter(window.size.x / 2, window.size.y / 2),
           clockFrame(windowCenter, std::min(window.size.x, window.size.y) / 2 - 1),
+          hourHand(windowCenter, hwlib::xy(0, 0)),
           minuteHand(windowCenter, hwlib::xy(0, 0)),
-          hourHand(windowCenter, hwlib::xy(0, 0)) {
+          secondHand(windowCenter, hwlib::xy(0, 0)) {
         hwlib::cout << "Window size: " << window.size << "\n";
     }
 
     void clock::update() {
+        auto now = hwlib::now_us();
+
+        // If 1 second has passed since last update
+        if (prev_time_update + 1'000'000 < now) {
+            prev_time_update += 1'000'000; // Set prev_time_update to when it should've been updated (NOT to now, to avoid drift)
+            time.addSeconds(1);
+        }
+
         if (!btnAddMinute.read()) {
             time.addMinutes(1);
         }
@@ -29,8 +38,11 @@ namespace Fusion {
             prev_time = time;
             hwlib::cout << "Time: " << time << "\n";
 
-            updateHand(minuteHand, time.minutes * (360 / 60), 30);
-            updateHand(hourHand, time.hours * (360 / 12), 20);
+            // Update hands (set end position to origin + rotation)
+            hourHand.end = hourHand.start + hourLineEnd[time.hours];
+            minuteHand.end = minuteHand.start + minuteLineEnd[time.minutes];
+            secondHand.start = windowCenter + secondLineStart[time.seconds];
+            secondHand.end = windowCenter + secondLineEnd[time.seconds];
         }
     }
 
@@ -39,17 +51,10 @@ namespace Fusion {
             drawFlag = false;
             window.clear();
             clockFrame.draw(window);
-            minuteHand.draw(window);
             hourHand.draw(window);
+            minuteHand.draw(window);
+            secondHand.draw(window);
             window.flush();
         }
-    }
-
-    void clock::updateHand(hwlib::line& hand, int rotationDegrees, int length) {
-        rotationDegrees -= 90; // Compensate for my bad math
-        float radians = rotationDegrees * (PI / 180);
-        int x = hand.start.x + cos(radians) * length;
-        int y = hand.start.y + sin(radians) * length;
-        hand.end = hwlib::xy(x, y);
     }
 } // namespace Fusion

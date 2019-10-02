@@ -1,6 +1,8 @@
 #pragma once
 
 #include <hwlib.hpp>
+#include <array>
+#include <math.h>
 
 #ifndef PI
 #define PI 3.14159265
@@ -64,4 +66,24 @@ namespace Fusion {
       private:
         void updateHand(hwlib::line& hand, int rotationDegrees, int length);
     };
+
+    // Calculate rotation endpoint xy where origin = 0,0
+    constexpr hwlib::xy calcRotationEnd(int rotationDegrees, int radius) {
+        float radians = rotationDegrees * (PI / 180);
+        return hwlib::xy(
+            cos(radians) * radius,
+            sin(radians) * radius);
+    }
+
+    template <typename T, std::size_t S>
+    constexpr const std::array<T, S> generateLookupTable(int length) {
+        std::array<T, S> arr;
+        int stepSize = 360 / S;
+        for (size_t i = 0; i < S; i++) {
+            arr[i] = calcRotationEnd(stepSize * i, length);
+        }
+        return arr;
+    }
+
+    constexpr std::array<hwlib::xy, 12> hourLineEnds = generateLookupTable<hwlib::xy, 12>(20);
 } // namespace Fusion

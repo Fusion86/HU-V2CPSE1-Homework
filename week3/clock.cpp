@@ -1,5 +1,3 @@
-#include <math.h>
-
 #include "clock.hpp"
 
 namespace Fusion {
@@ -37,15 +35,9 @@ namespace Fusion {
         if (drawFlag) {
             drawFlag = false;
             window.clear();
-
-            // for (int i = 0; i < 60; i++) {
-            //     window.write(hwlib::xy(i, 5));
-            // }
-
             clockFrame.draw(window);
             minuteHand.draw(window);
             hourHand.draw(window);
-
             window.flush();
         }
     }

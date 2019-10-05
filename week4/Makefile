@@ -9,10 +9,10 @@
 #############################################################################
 
 # source files in this project (main.cpp is automatically assumed)
-SOURCES :=
+SOURCES := 
 
 # header files in this project
-HEADERS :=
+HEADERS := match.hpp compressor.hpp decompressor.hpp
 
 # other places to look for files for this project
 SEARCH  :=

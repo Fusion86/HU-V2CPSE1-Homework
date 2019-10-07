@@ -14,3 +14,6 @@ bmptk_fixed_size_stack.c
 # Week 2
 generator
 week2_*/my_melody.cpp
+
+# Week 4
+week4_*/compressed_data.asm

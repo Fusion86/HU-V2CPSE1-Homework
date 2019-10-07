@@ -31,7 +31,7 @@ TEST_CASE("max size") {
     REQUIRE(ss.str() == "0, 1, 2, 3, 4");
 }
 
-TEST_CASE("remove items") {
+TEST_CASE("remove string item") {
     set<std::string, 5> set;
     set.add("test");
     set.add("string");
@@ -41,6 +41,16 @@ TEST_CASE("remove items") {
     std::stringstream ss;
     ss << set;
     REQUIRE(ss.str() == "test, string");
+}
+
+TEST_CASE("remove int item") {
+    set<int, 5> set;
+    for (int i = 0; i < 5; i++)
+        set.add(i);
+    set.remove(2);
+    std::stringstream ss;
+    ss << set;
+    REQUIRE(ss.str() == "0, 1, 3, 4");
 }
 
 TEST_CASE("char max") {

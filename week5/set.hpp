@@ -33,7 +33,7 @@ class set {
             // If the item we want to remove is found set shift to true
             if (arr[i] == item) shift = true;
 
-            // If shit == true then shift all items one position down.
+            // If shift == true then shift all items one position down.
             // This will replace the item we want to remove with the next item in the array
             // and then shift the rest of the items one positon to the left
             if (shift) arr[i] = arr[i + 1];

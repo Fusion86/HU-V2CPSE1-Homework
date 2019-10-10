@@ -9,7 +9,7 @@
 #############################################################################
 
 # source files in this project (main.cpp is automatically assumed)
-SOURCES := compressed_data.asm
+SOURCES := compressed_data.asm decode_str_compressed.asm
 
 # header files in this project
 HEADERS :=

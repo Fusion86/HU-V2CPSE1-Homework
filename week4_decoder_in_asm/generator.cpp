@@ -35,9 +35,11 @@ int main(void) {
 .align 2
 
 .data
+.global str_compressed
 str_compressed:
 .byte )"
        << ss.str()
+       << "0" // String terminator
        << '\n';
 
     f1.close();

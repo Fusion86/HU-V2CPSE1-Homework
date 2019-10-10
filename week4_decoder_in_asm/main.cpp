@@ -7,9 +7,13 @@ extern "C" {
 void uart_put_char(char c) {
     hwlib::cout << c;
 }
+
+void decode_str_compressed();
 }
 
 int main(void) {
-    // wait for the PC console to start
+    // Wait for the PC console to start
     hwlib::wait_ms(2000);
+
+    decode_str_compressed();
 }
